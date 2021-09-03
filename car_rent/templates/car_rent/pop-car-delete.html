@@ -1,0 +1,40 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <title>Delete popular car</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap and css -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/page.css' %}" type="text/css"/>
+    </head>
+
+    <body class="body_log">
+        <div class="wrapper" style="text-align: center;">
+            <h2>Delete popular car</h2>
+            <h4>Are you sure you want to delete it?</h4>
+            {% if user.is_superuser %}
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger" style="background: #b50909;" value="Confirm"/>
+                </form>
+
+                <form method="post" action="{% url 'comments-logged' %}">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" value="Cancel"/>
+                </form>
+            {% endif %}
+        </div>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <title>Popular car edit</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap and css -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/page.css' %}" type="text/css"/>
+    </head>
+
+    <body style="background-color: #1F1F1F;">
+        <div class="wrapper_read">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="page-header" style="color: white;">
+                            <h1>Record details</h1>
+                        </div>
+
+                        <div class="form-group" style="color: white;">
+                            {% if user.is_superuser %}
+                                <form method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    {% for field in form %}
+                                    <div style="padding-bottom: 10px;" class="reg-form">
+                                        <label class="form_label_record">{{ field.label_tag }}</label>
+                                        <p class="form-control-static" style="color: #5c5d5e;">{{ field }}</p>
+                                    </div>
+                                    {% endfor %}
+
+                                    <div class="form-group" style="padding-top: 15px;">
+                                        <input type="submit" class="btn btn-danger pull-left" style="background: #b50909;" value="Edit">
+                                        <a href="{% url 'management' %}" class="btn btn-success pull-right" style="padding: 10px 20px 10px 20px;">Cancel</a>
+                                    </div>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>
+
+
+
+
+
+
+
+

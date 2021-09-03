@@ -1,0 +1,55 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <title>Registration page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap and css -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/page.css' %}" type="text/css"/>
+    </head>
+
+    <body class="body_log">
+        <div class="wrapper" style="width: 370px;">
+            <h2>Registration | <a href="{% url 'index' %}" class="link">Main page</a></h2>
+            <p>Fill in your details to register</p>
+            <form method="post">
+                {% csrf_token %}
+                    {% for field in form %}
+                        <p class="reg-form">
+                            {{ field.label_tag }}<br>
+                            <div style="color: black;">{{ field }}</div>
+                            <!-- Show errors -->
+                            {% for error in field.errors %}
+                                <p style="color: red">{{ error }}</p>
+                            {% endfor %}
+                        </p>
+                    {% endfor %}
+
+                <div style="padding-top: 15px;">
+                    <input type="submit" class="btn btn-primary" value="Confirm">
+                    <input type="reset" class="btn btn-default" style="padding: 10px;" value="Clear form">
+                </div>
+
+                <p style="padding-top: 20px;">You already have an account? Login <a class="link" href="{% url 'login' %}">here...</a></p>
+            </form>
+        </div>
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

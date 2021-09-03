@@ -1,0 +1,164 @@
+{% extends 'car_rent/base.html' %}
+{% block content %}
+<!-- Navbar -->
+<nav class="my_navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Offer<span class="caret"></span></a>
+                    <ul class="dropdown-menu drop-cats" style="min-width: 100px; padding: 5px 5px; margin: 2px;">
+                        <!-- Dynamic creating sub-categories list -->
+                        {% for category in categories %}
+                            {% if not forloop.last %}
+                                <a href="{{ category.url }}" class="cat-list">{{ category.category|capfirst|linebreaks }}</a>
+                            {% else %}
+                                <a href="{{ category.url }}" class="cat-list">{{ category.category|capfirst }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="#">Comments</a></li>
+                <li><a href="#footer">Contact</a></li>
+                <!-- Add 'Management' site for admin -->
+                {% if user.is_superuser %}
+                    <li><a href="{% url 'management' %}">Management</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Icons right side of the navigation bar -->
+                {% if user.is_authenticated %}
+                    <li><a href="#"><span class="glyphicon glyphicon-user" style="padding-right: 5px;"></span>Hello {{ user|capfirst }}</a></li>
+                    <li><a href="#" class="log-out-icon"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    <li style="padding: 14px 15px 0px 0px;">
+                        <form action="{% url 'logout' %}" method="POST" id="form">
+                            {% csrf_token %}
+                            <button class="logout-btn" type="submit" value="Logout">Logout</button>
+                        </form>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="comment1">
+    <p> What customers say about us? </p>
+</div>
+
+<!-- Sliding comment section -->
+<div id="flip">Click here to add comment</div>
+<div class="demo-container" id="panel">
+    <!-- Add new comment if there is no user's comment-->
+    {% if user.id not in fv %}
+        <p class='lead'><em>You have no comments yet</em></p>
+        <div>
+            <form action="{% url 'comments-add' pk=user.id %}" method="post">
+                {% csrf_token %}
+                <div class="btn-com-add">
+                    <input type="submit" style="padding:10px; border-radius: 10px;" value="Add new comment">
+                </div>
+            </form>
+        </div>
+    {% endif %}
+    {% if user.id in fv %}
+        <!-- Table with added comments -->
+        <div class="com_disp">
+            <div>
+                <h4 style="float:left;">Added comments</h4>
+            </div>
+            <table class='table table-bordered table_com'>
+                <thead>
+                    <tr>
+                        <th class='t_com'>Username</th>
+                        <th class='t_com'>Comment</th>
+                        <th class='t_com'>Created date</th>
+                        <th class='t_com'>Options</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Display all comments when Admin is logged -->
+                    {% if user.is_superuser %}
+                        {% for c in cf %}
+                            <tr class='t_com'>
+                                <td class='t_com'>{{ c.name }}</td>
+                                <td class='t_com'>{{ c.comment }}</td>
+                                <td class="t_com">{{ c.created_date }}</td>
+                                <td class='t_com'>
+                                    <a href="{% url 'comments-edit' pk=c.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px'></span></a>
+                                    <a href="{% url 'comments-delete' pk=c.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' ></span></a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    <!-- Display comments for logged user -->
+                    {% else %}
+                        {% for c in cf %}
+                            {% if c.created_by == user %}
+                                <tr class='t_com'>
+                                    <td class='t_com'>{{ c.name }}</td>
+                                    <td class='t_com'>{{ c.comment }}</td>
+                                    <td class="t_com">{{ c.created_date }}</td>
+                                    <td class='t_com'>
+                                        <a href="{% url 'comments-edit' pk=c.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px'></span></a>
+                                        <a href="{% url 'comments-delete' pk=c.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' ></span></a>
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</div>
+<!-- Creating circles under comments -->
+<div id="myCarousel" class="carousel slide text-center" style="background-color: black;" data-ride="carousel">
+    <ol class="carousel-indicators">
+        {% if cf|length > 0 and cf|length <= 5 %}
+            <!-- First item must have class 'active' -->
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                {% for i in count %}
+                    <li data-target="#myCarousel" data-slide-to={{ i }}></li>
+                {% endfor %}
+        {% endif %}
+    </ol>
+    <!-- Display customers comments -->
+    <div class="carousel-inner" role="listbox" style="height: 200px;">
+        {% for c in cf %}
+            {% if c.id == low_id.id__min %}
+            <!-- First item must have class 'item active' -->
+                <div class="item active"><h4>{{ c.comment }}<br><span>{{ c.name }}</span></h4></div>
+            {% else %}
+                <div class="item"><h4>{{ c.comment }}<br><span>{{ c.name }}</span></h4></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <!-- Switches to change comments -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<div class="comment2"></div>
+
+<!-- Change comment automatically and with keys/category list - scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- Script for comment section -->
+<script>
+		$(document).ready(function()
+		{
+			$("#flip").click(function()
+			{
+				$("#panel").slideToggle("slow");
+			});
+		});
+</script>
+
+{% endblock %}

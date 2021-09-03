@@ -1,0 +1,151 @@
+{% load static %}
+<html lang="en">
+    <head>
+        <title>Management</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap and css -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'css/page.css' %}" type="text/css"/>
+    </head>
+
+    <body style="background-color: #1F1F1F;">
+        <!-- Car offer management -->
+        <div class="wrapper_manage">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="page-header clearfix">
+                            <h2 class="pull-left" style="color: white;">Car offer details</h2>
+                            <div style="padding-top: 15px;">
+                                <div><a href="{% url 'index' %}" class="btn btn-primary pull-right" style="padding: 10px 20px 10px 20px;">Back</a></div>
+                                <div><a href="{% url 'car-add' %}" class="btn btn-success pull-right" style="padding: 10px 20px 10px 20px;">Add new</a></div>
+                            </div>
+                        </div>
+
+                        <table class='table table-bordered table_com'>
+                            <thead>
+                                <tr>
+                                    <th class='t_com'>ID</th>
+                                    <th class='t_com'>Site</th>
+                                    <th class='t_com'>Image url</th>
+                                    <th class='t_com'>Description</th>
+                                    <th class='t_com'>Price</th>
+                                    <th class='t_com'>Status</th>
+                                    <th class='t_com'>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for dc in daily %}
+                                    {% if dc.site_url == 'daily' %}
+                                        <tr>
+                                            <td class='t_com'>{{ dc.id }}</td>
+                                            <td class='t_com'>{{ dc.site_url }}</td>
+                                            <td class='t_com'>{{ dc.image_url }}</td>
+                                            <td class='t_com'>{{ dc.brand|add:' '|add:dc.model|add:' '|add:dc.year }}</td>
+                                            <td class='t_com'>{{ dc.price }}</td>
+                                            <td class='t_com'>{{ dc.active }}</td>
+                                            <td class='t_com'>
+                                                <a href="{% url 'car-view' pk=dc.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-edit' pk=dc.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-delete' pk=dc.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for sc in sport %}
+                                    {% if sc.site_url == 'sport' %}
+                                        <tr>
+                                            <td class='t_com'>{{ sc.id }}</td>
+                                            <td class='t_com'>{{ sc.site_url }}</td>
+                                            <td class='t_com'>{{ sc.image_url }}</td>
+                                            <td class='t_com'>{{ sc.brand|add:' '|add:sc.model|add:' '|add:sc.year }}</td>
+                                            <td class='t_com'>{{ sc.price }}</td>
+                                            <td class='t_com'>{{ sc.active }}</td>
+                                            <td class='t_com'>
+                                                <a href="{% url 'car-view' pk=sc.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-edit' pk=sc.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-delete' pk=sc.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                {% for mc in muscle %}
+                                    {% if mc.site_url == 'muscle' %}
+                                        <tr>
+                                            <td class='t_com'>{{ mc.id }}</td>
+                                            <td class='t_com'>{{ mc.site_url }}</td>
+                                            <td class='t_com'>{{ mc.image_url }}</td>
+                                            <td class='t_com'>{{ mc.brand|add:' '|add:mc.model|add:' '|add:mc.year }}</td>
+                                            <td class='t_com'>{{ mc.price }}</td>
+                                            <td class='t_com'>{{ mc.active }}</td>
+                                            <td class='t_com'>
+                                                <a href="{% url 'car-view' pk=mc.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-edit' pk=mc.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-delete' pk=mc.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% if not daily and not sport and not muscle %}
+                            <p class='lead' style="color: white;"><em>No results found</em></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Popular cars management - index site -->
+        <div class="wrapper_manage">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="page-header clearfix">
+                            <h2 class="pull-left" style="color: white;">Popular cars - home page</h2>
+                            <div style="padding-top: 15px;">
+                                <div><a href="{% url 'index' %}" class="btn btn-primary pull-right" style="padding: 10px 20px 10px 20px;">Back</a></div>
+                                <div><a href="{% url 'pop-car-add' %}" class="btn btn-success pull-right" style="padding: 10px 20px 10px 20px;">Add new</a></div>
+                            </div>
+                        </div>
+
+                        <table class='table table-bordered table_com'>
+                            <thead>
+                                <tr>
+                                    <th class='t_com'>ID</th>
+                                    <th class='t_com'>Site</th>
+                                    <th class='t_com'>Image url</th>
+                                    <th class='t_com'>Description</th>
+                                    <th class='t_com'>Status</th>
+                                    <th class='t_com'>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for pc in pop_cars %}
+                                    {% if pc.site_url == 'index' %}
+                                        <tr>
+                                            <td class='t_com'>{{ pc.id }}</td>
+                                            <td class='t_com'>{{ pc.site_url }}</td>
+                                            <td class='t_com'>{{ pc.image_url }}</td>
+                                            <td class='t_com'>{{ pc.brand|add:' '|add:pc.model|add:' '|add:pc.year }}</td>
+                                            <td class='t_com'>{{ pc.active }}</td>
+                                            <td class='t_com'>
+                                                <a href="{% url 'pop-car-view' pk=pc.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'pop-car-edit' pk=pc.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'pop-car-delete' pk=pc.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
+                                            </td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% if not pop_cars %}
+                            <p class='lead' style="color: white;"><em>No results found</em></p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

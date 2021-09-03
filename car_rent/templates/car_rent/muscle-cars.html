@@ -1,0 +1,97 @@
+{% extends 'car_rent/base.html' %}
+{% block content %}
+<!-- Navbar -->
+<nav class="my_navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Offer<span class="caret"></span></a>
+                    <ul class="dropdown-menu drop-cats" style="min-width: 100px; padding: 5px 5px; margin: 2px;">
+                        <!-- Dynamic creating sub-categories list -->
+                        {% for category in categories %}
+                            {% if not forloop.last %}
+                                <a href="{{ category.url }}" class="cat-list">{{ category.category|capfirst|linebreaks }}</a>
+                            {% else %}
+                                <a href="{{ category.url }}" class="cat-list">{{ category.category|capfirst }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+                <!-- Redirect to comments_logged if user is logged -->
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'comments-logged' %}">Comments</a></li>
+                {% else %}
+                    <li><a href="{% url 'comments' %}">Comments</a></li>
+                {% endif %}
+                <li><a href="#footer">Contact</a></li>
+                <!-- Add 'Management' site for admin -->
+                {% if user.is_superuser %}
+                    <li><a href="{% url 'management' %}">Management</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Icons right side of the navigation bar -->
+                {% if user.is_authenticated %}
+                    <li><a href="#"><span class="glyphicon glyphicon-user" style="padding-right: 5px;"></span>Hello {{ user|capfirst }}</a></li>
+                    <li><a href="#" class="log-out-icon"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    <li style="padding: 14px 15px 0px 0px;">
+                        <form action="{% url 'logout' %}" method="POST" id="form">
+                            {% csrf_token %}
+                            <button class="logout-btn" type="submit" value="Logout">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in" style="padding-right: 5px;"></span>Login</a></li>
+                    <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user" style="padding-right: 5px;"></span>Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="car-offer-desc">
+    <p> Muscle cars in our offer </p>
+</div>
+<!-- Show offer -->
+<div class="product_cont">
+    {% for car in muscle %}
+        {% if car.site_url == 'muscle' and time > car.published_date %}
+            <div id="ads">
+                <div class="col-md-4 box_padding">
+                    <div class="card rounded card_padding">
+                        <div class="gallery">
+                            <span class="card-notify-badge">{{ car.brand|add:' '|add:car.model|add:' '|add:car.year }}</span>
+                            {% if car.active %}
+                                <span class="card-notify-badge car-available">Available</span>
+                            {% else %}
+                                <span class="card-notify-badge car-not-available">Not available</span>
+                            {% endif %}
+                            <img><a href="/media/{{ car.image_url }}"><img src="/media/{{ car.image_url }}" class="ads-img"></a>
+                        </div>
+                        <div class="card-image-overlay m-auto">
+                            <span class="card-detail-badge">{{ car.engine|add:' - '|add:car.power }}</span>
+                            <span class="card-detail-badge">{{ car.price }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+<div class="comment4">
+    If you are interested in our offer, please contact us
+</div>
+
+<!-- Lightbox Bootstrap scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.min.js" integrity="sha512-ZajFBgnksNp8Rj+AbmYe8ueOu45HiSjtf3QpqnRbHlq719m6VK0FkbYIqQ8wEnlVuJ1i9pC+z6Z9ewmDnUTMCg==" crossorigin="anonymous"></script>
+<script>
+    var gallery = new SimpleLightbox('.gallery a');
+</script>
+<!-- Change comment automatically and with keys - scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+{% endblock %}

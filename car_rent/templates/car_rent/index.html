@@ -1,0 +1,133 @@
+{% extends 'car_rent/base.html' %}
+{% block content %}
+<!-- Navbar -->
+<nav class="my_navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="#">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Offer<span class="caret"></span></a>
+                    <ul class="dropdown-menu drop-cats">
+                        <!-- Dynamic creating sub-categories list -->
+                        {% for category in categories %}
+                            {% if not forloop.last %}
+                                <a href="{{ category.url }}" class="cat-list">{{ category.category|capfirst|linebreaks }}</a>
+                            {% else %}
+                                <a href="{{ category.url }}" class="cat-list">{{ category.category|capfirst }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'comments-logged' %}">Comments</a></li>
+                {% else %}
+                    <li><a href="{% url 'comments' %}">Comments</a></li>
+                {% endif %}
+                <li><a href="#footer">Contact</a></li>
+                <!-- Add 'Management' site for admin -->
+                {% if user.is_superuser %}
+                    <li><a href="{% url 'management' %}">Management</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Icons right side of the navigation bar -->
+                {% if user.is_authenticated %}
+                    <li><a href="#"><span class="glyphicon glyphicon-user" style="padding-right: 5px;"></span>Hello {{ user|capfirst }}</a></li>
+                    <li><a href="#" class="log-out-icon"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    <li style="padding: 14px 15px 0px 0px;">
+                        <form action="{% url 'logout' %}" method="POST" id="form">
+                            {% csrf_token %}
+                            <button class="logout-btn" type="submit" value="Logout">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in" style="padding-right: 5px;"></span>Login</a></li>
+                    <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user" style="padding-right: 5px;"></span>Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Background images and description -->
+<div class="parallax1"></div>
+<div class="description">
+    <h2> Car Rental </h2>
+    <p>
+        We offer short-term and long-term car rentals of different makes and origins.
+    </p>
+    <p>
+        We offer seldom American Muscle Cars rentals.
+    </p>
+    <p>
+        We also offer sports and daily cars.
+    </p>
+    <p style="color: red;"> We invite you to check our offer </p>
+</div>
+<div class="parallax2"></div>
+<!-- Most popular cars in offer -->
+<div class="popular_desc">
+    <p> Most popular cars in our offer: </p>
+</div>
+<!-- Show popular cars -->
+<section class="photo_gallery">
+    <div class="w3-content w3-display-container">
+        {% for car in pop_cars %}
+            {% if car.active %}
+                <div class="mySlides pop_parent">
+                    <div class="pop_child1">
+                        <a href="/media/{{ car.image_url }}"><img src="/media/{{ car.image_url }}"></a>
+                    </div>
+                    <div class="pop_child2">{{ car.brand|add:' '|add:car.model|add:' '|add:car.year }}</div>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <!-- Change images with buttons -->
+        <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+        <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+    </div>
+</section>
+
+<div class="comments-link">
+    <!-- Redirect to comments_logged if user is logged -->
+    {% if user.is_authenticated %}
+        <p> Check what our clients think about us <a href="{% url 'comments-logged' %}" class="link">here...</a></p>
+    {% else %}
+        <p> Check what our clients think about us <a href="{% url 'comments' %}" class="link">here...</a></p>
+    {% endif %}
+</div>
+
+<!-- Lightbox Bootstrap scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.7.0/simple-lightbox.min.js" integrity="sha512-ZajFBgnksNp8Rj+AbmYe8ueOu45HiSjtf3QpqnRbHlq719m6VK0FkbYIqQ8wEnlVuJ1i9pC+z6Z9ewmDnUTMCg==" crossorigin="anonymous"></script>
+<!-- Category list - car offer - scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- JavaScript for image sliding -->
+<script>
+    var slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n){
+        showDivs(slideIndex += n);
+    }
+
+    function showDivs(n){
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        if (n > x.length){
+            slideIndex = 1;
+        }
+        if (n < 1){
+            slideIndex = x.length;
+        }
+        for (i = 0; i < x.length; i++){
+            x[i].style.display = "none";
+        }
+            x[slideIndex-1].style.display = "block";
+        }
+</script>
+<script>
+    var gallery = new SimpleLightbox('.photo_gallery a');
+</script>
+
+{% endblock %}

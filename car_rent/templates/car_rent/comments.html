@@ -1,0 +1,95 @@
+{% extends 'car_rent/base.html' %}
+{% block content %}
+<!-- Navbar -->
+<nav class="my_navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">Offer<span class="caret"></span></a>
+                    <ul class="dropdown-menu drop-cats" style="min-width: 100px; padding: 5px 5px; margin: 2px;">
+                        <!-- Dynamic creating sub-categories list -->
+                        {% for category in categories %}
+                            {% if not forloop.last %}
+                                <a href="{{ category.url }}" class="cat-list">{{ category.category|capfirst|linebreaks }}</a>
+                            {% else %}
+                                <a href="{{ category.url }}" class="cat-list">{{ category.category|capfirst }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </li>
+                <li><a href="#">Comments</a></li>
+                <li><a href="#footer">Contact</a></li>
+                <!-- Add 'Management' site for admin -->
+                {% if user.is_superuser %}
+                    <li><a href="{% url 'management' %}">Management</a></li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Icons right side of the navigation bar -->
+                {% if user.is_authenticated %}
+                    <li><a href="#"><span class="glyphicon glyphicon-user" style="padding-right: 5px;"></span>Hello {{ user|capfirst }}</a></li>
+                    <li><a href="#" class="log-out-icon"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                    <li style="padding: 14px 15px 0px 0px;">
+                        <form action="{% url 'logout' %}" method="POST" id="form">
+                            {% csrf_token %}
+                            <button class="logout-btn" type="submit" value="Logout">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in" style="padding-right: 5px;"></span>Login</a></li>
+                    <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user" style="padding-right: 5px;"></span>Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="comment1">
+    <p> What customers say about us? </p>
+</div>
+
+<!-- Creating circles under comments -->
+<div id="myCarousel" class="carousel slide text-center" style="background-color: black;" data-ride="carousel">
+    <ol class="carousel-indicators">
+        {% if cf|length > 0 and cf|length <= 5 %}
+            <!-- First item must have class 'active' -->
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                {% for i in count %}
+                    <li data-target="#myCarousel" data-slide-to={{i}}></li>
+                {% endfor %}
+        {% endif %}
+    </ol>
+    <!-- Display customers comments -->
+    <div class="carousel-inner" role="listbox" style="height: 200px;">
+        {% for c in cf %}
+            {% if c.id == low_id.id__min %}
+                <!-- First item must have class 'item active' -->
+                <div class="item active"><h4>{{ c.comment }}<br><span>{{ c.name }}</span></h4></div>
+            {% else %}
+                <div class="item"><h4>{{ c.comment }}<br><span>{{ c.name }}</span></h4></div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <!-- Switches to change comments -->
+    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<div class="comment2">
+    <p> Login to add your comment </p>
+    <p> Don't have an account? Register<a href="{% url 'register' %}" class="link" > here...</a></p>
+</div>
+
+<!-- Change comment automatically and with keys - scripts -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+{% endblock %}
