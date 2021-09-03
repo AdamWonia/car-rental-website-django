@@ -1,8 +1,0 @@
-admin
-adam, django123
-
-user
-Caroline, caro#123
-
-user
-Pawel, pawel#123
