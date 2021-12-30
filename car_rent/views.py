@@ -123,9 +123,9 @@ def index(request):
 
 def cat_daily(request):
     categories = Category.objects.all()
-    daily = Cars.objects.all()
-    pub_time = timezone.now()
-    context = {'categories': categories, 'daily': daily, 'time': pub_time}
+    daily_cars = Cars.objects.all()
+    publication_time = timezone.now()
+    context = {'categories': categories, 'daily_cars': daily_cars, 'pub_time': publication_time}
 
     return render(request, 'car_rent/daily-cars.html', context)
 
