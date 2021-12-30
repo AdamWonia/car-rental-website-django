@@ -1,2 +1,0 @@
-fotki strony
-
