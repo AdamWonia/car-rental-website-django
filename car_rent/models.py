@@ -18,7 +18,7 @@ class PopularCars(models.Model):
     model = models.CharField(max_length=50)
     year = models.CharField(max_length=4)
     site_url = models.CharField(max_length=200, default=None, help_text='index')
-    image_url = models.ImageField(blank=True, null=True, default='images/white_img.png')
+    image_url = models.ImageField(blank=True, null=True, default='images/white_img.png', upload_to='images/used/')
     active = models.BooleanField(default=True)
 
     def __str__(self):
