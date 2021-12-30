@@ -132,29 +132,30 @@ def cat_daily(request):
 
 def cat_sport(request):
     categories = Category.objects.all()
-    sport = Cars.objects.all()
-    pub_time = timezone.now()
-    context = {'categories': categories, 'sport': sport, 'time': pub_time}
+    sport_cars = Cars.objects.all()
+    publication_time = timezone.now()
+    context = {'categories': categories, 'sport_cars': sport_cars, 'pub_time': publication_time}
 
     return render(request, 'car_rent/sports-cars.html', context)
 
 
 def cat_muscle(request):
     categories = Category.objects.all()
-    muscle = Cars.objects.all()
-    pub_time = timezone.now()
-    context = {'categories': categories, 'muscle': muscle, 'time': pub_time}
+    muscle_cars = Cars.objects.all()
+    publication_time = timezone.now()
+    context = {'categories': categories, 'muscle_cars': muscle_cars, 'pub_time': publication_time}
 
     return render(request, 'car_rent/muscle-cars.html', context)
 
 
 def comments(request):
     categories = Category.objects.all()
-    coms_filt = Comments.objects.filter(created_date__lte=timezone.now()).order_by('created_date')
-    count = Comments.objects.all().count()
+    comments_filtered = Comments.objects.filter(created_date__lte=timezone.now()).order_by('created_date')
+    amount = Comments.objects.all().count()
     lowest_id = Comments.objects.all().aggregate(Min('id'))
-    context = {'categories': categories, 'comments': comments, 'cf': coms_filt, 'count': range(1, count),
-               'low_id': lowest_id}
+    context = {'categories': categories, 'comments': comments, 'comments_filtered': comments_filtered,
+               'amount': range(1, amount),
+               'lowest_id': lowest_id}
 
     return render(request, 'car_rent/comments.html', context)
 
@@ -162,16 +163,17 @@ def comments(request):
 @login_required(login_url='/comments/')
 def comments_logged(request):
     categories = Category.objects.all()
-    coms_filt = Comments.objects.filter(created_date__lte=timezone.now()).order_by('created_date')
-    count = Comments.objects.all().count()
+    comments_filtered = Comments.objects.filter(created_date__lte=timezone.now()).order_by('created_date')
+    amount = Comments.objects.all().count()
     lowest_id = Comments.objects.all().aggregate(Min('id'))
 
-    dict_vals = Comments.objects.values('created_by')
-    vals_list = list(dict_vals)
-    field_values = [d['created_by'] for d in vals_list]
+    dictionary_values = Comments.objects.values('created_by')
+    values_list = list(dictionary_values)
+    field_values = [d['created_by'] for d in values_list]
 
-    context = {'categories': categories, 'comments': comments, 'cf': coms_filt, 'count': range(1, count),
-               'low_id': lowest_id, 'fv': field_values}
+    context = {'categories': categories, 'comments': comments, 'comments_filtered': comments_filtered,
+               'amount': range(1, amount),
+               'lowest_id': lowest_id, 'field_values': field_values}
 
     return render(request, 'car_rent/comments-logged.html', context)
 
@@ -216,10 +218,10 @@ def logout_user(request):
 
 @login_required(login_url='/')
 def management(request):
-    pop_cars = PopularCars.objects.all()
-    daily = Cars.objects.all()
-    sport = Cars.objects.all()
-    muscle = Cars.objects.all()
-    context = {'daily': daily, 'sport': sport, 'muscle': muscle, 'pop_cars': pop_cars}
+    popular_cars = PopularCars.objects.all()
+    daily_cars = Cars.objects.all()
+    sport_cars = Cars.objects.all()
+    muscle_cars = Cars.objects.all()
+    context = {'daily_cars': daily_cars, 'sport_cars': sport_cars, 'muscle_cars': muscle_cars, 'pop_cars': popular_cars}
 
     return render(request, 'car_rent/management.html', context)
