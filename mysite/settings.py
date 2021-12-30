@@ -75,8 +75,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'car_rent',
-        'USER': 'root',
-        'PASSWORD': 'adam_root',
+        'USER': 'your-user-name',
+        'PASSWORD': 'your-password',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'OPTIONS': {
