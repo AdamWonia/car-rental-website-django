@@ -3,5 +3,4 @@
 __pycache__/
 mysql*tables/
 myvenv/
-.idea/
 readme.txt
