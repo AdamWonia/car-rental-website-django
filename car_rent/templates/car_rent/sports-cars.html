@@ -56,8 +56,8 @@
 </div>
 <!-- Show offer -->
 <div class="product_cont">
-    {% for car in sport %}
-        {% if car.site_url == 'sport' and time > car.published_date %}
+    {% for car in sport_cars %}
+        {% if car.site_url == 'sport' and pub_time > car.published_date %}
             <div id="ads">
                 <div class="col-md-4 box_padding">
                     <div class="card rounded card_padding">
