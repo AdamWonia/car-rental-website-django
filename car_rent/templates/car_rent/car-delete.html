@@ -19,7 +19,7 @@
                     <input type="submit" class="btn btn-danger" style="background: #b50909;" value="Confirm"/>
                 </form>
 
-                <form method="post" action="{% url 'comments-logged' %}">
+                <form method="post" action="{% url 'management' %}">
                     {% csrf_token %}
                     <input type="submit" class="btn btn-primary" value="Cancel"/>
                 </form>
