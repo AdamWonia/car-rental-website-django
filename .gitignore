@@ -1,7 +1,7 @@
 *.pyc
 *.
 __pycache__/
-mysql tables/
+mysql*tables/
 myvenv/
 .idea/
 readme.txt
