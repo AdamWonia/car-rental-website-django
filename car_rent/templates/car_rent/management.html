@@ -36,60 +36,60 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for dc in daily %}
-                                    {% if dc.site_url == 'daily' %}
+                                {% for daily in daily_cars %}
+                                    {% if daily.site_url == 'daily' %}
                                         <tr>
-                                            <td class='t_com'>{{ dc.id }}</td>
-                                            <td class='t_com'>{{ dc.site_url }}</td>
-                                            <td class='t_com'>{{ dc.image_url }}</td>
-                                            <td class='t_com'>{{ dc.brand|add:' '|add:dc.model|add:' '|add:dc.year }}</td>
-                                            <td class='t_com'>{{ dc.price }}</td>
-                                            <td class='t_com'>{{ dc.active }}</td>
+                                            <td class='t_com'>{{ daily.id }}</td>
+                                            <td class='t_com'>{{ daily.site_url }}</td>
+                                            <td class='t_com'>{{ daily.image_url }}</td>
+                                            <td class='t_com'>{{ daily.brand|add:' '|add:daily.model|add:' '|add:daily.year }}</td>
+                                            <td class='t_com'>{{ daily.price }}</td>
+                                            <td class='t_com'>{{ daily.active }}</td>
                                             <td class='t_com'>
-                                                <a href="{% url 'car-view' pk=dc.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
-                                                <a href="{% url 'car-edit' pk=dc.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
-                                                <a href="{% url 'car-delete' pk=dc.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-view' pk=daily.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-edit' pk=daily.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-delete' pk=daily.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
-                                {% for sc in sport %}
-                                    {% if sc.site_url == 'sport' %}
+                                {% for sport in sport_cars %}
+                                    {% if sport.site_url == 'sport' %}
                                         <tr>
-                                            <td class='t_com'>{{ sc.id }}</td>
-                                            <td class='t_com'>{{ sc.site_url }}</td>
-                                            <td class='t_com'>{{ sc.image_url }}</td>
-                                            <td class='t_com'>{{ sc.brand|add:' '|add:sc.model|add:' '|add:sc.year }}</td>
-                                            <td class='t_com'>{{ sc.price }}</td>
-                                            <td class='t_com'>{{ sc.active }}</td>
+                                            <td class='t_com'>{{ sport.id }}</td>
+                                            <td class='t_com'>{{ sport.site_url }}</td>
+                                            <td class='t_com'>{{ sport.image_url }}</td>
+                                            <td class='t_com'>{{ sport.brand|add:' '|add:sport.model|add:' '|add:sport.year }}</td>
+                                            <td class='t_com'>{{ sport.price }}</td>
+                                            <td class='t_com'>{{ sport.active }}</td>
                                             <td class='t_com'>
-                                                <a href="{% url 'car-view' pk=sc.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
-                                                <a href="{% url 'car-edit' pk=sc.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
-                                                <a href="{% url 'car-delete' pk=sc.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-view' pk=sport.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-edit' pk=sport.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-delete' pk=sport.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
-                                {% for mc in muscle %}
-                                    {% if mc.site_url == 'muscle' %}
+                                {% for muscle in muscle_cars %}
+                                    {% if muscle.site_url == 'muscle' %}
                                         <tr>
-                                            <td class='t_com'>{{ mc.id }}</td>
-                                            <td class='t_com'>{{ mc.site_url }}</td>
-                                            <td class='t_com'>{{ mc.image_url }}</td>
-                                            <td class='t_com'>{{ mc.brand|add:' '|add:mc.model|add:' '|add:mc.year }}</td>
-                                            <td class='t_com'>{{ mc.price }}</td>
-                                            <td class='t_com'>{{ mc.active }}</td>
+                                            <td class='t_com'>{{ muscle.id }}</td>
+                                            <td class='t_com'>{{ muscle.site_url }}</td>
+                                            <td class='t_com'>{{ muscle.image_url }}</td>
+                                            <td class='t_com'>{{ muscle.brand|add:' '|add:muscle.model|add:' '|add:muscle.year }}</td>
+                                            <td class='t_com'>{{ muscle.price }}</td>
+                                            <td class='t_com'>{{ muscle.active }}</td>
                                             <td class='t_com'>
-                                                <a href="{% url 'car-view' pk=mc.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
-                                                <a href="{% url 'car-edit' pk=mc.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
-                                                <a href="{% url 'car-delete' pk=mc.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-view' pk=muscle.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-edit' pk=muscle.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'car-delete' pk=muscle.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
                                             </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>
-                        {% if not daily and not sport and not muscle %}
+                        {% if not daily_cars and not sport_cars and not muscle_cars %}
                             <p class='lead' style="color: white;"><em>No results found</em></p>
                         {% endif %}
                     </div>
@@ -122,18 +122,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for pc in pop_cars %}
-                                    {% if pc.site_url == 'index' %}
+                                {% for car in pop_cars %}
+                                    {% if car.site_url == 'index' %}
                                         <tr>
-                                            <td class='t_com'>{{ pc.id }}</td>
-                                            <td class='t_com'>{{ pc.site_url }}</td>
-                                            <td class='t_com'>{{ pc.image_url }}</td>
-                                            <td class='t_com'>{{ pc.brand|add:' '|add:pc.model|add:' '|add:pc.year }}</td>
-                                            <td class='t_com'>{{ pc.active }}</td>
+                                            <td class='t_com'>{{ car.id }}</td>
+                                            <td class='t_com'>{{ car.site_url }}</td>
+                                            <td class='t_com'>{{ car.image_url }}</td>
+                                            <td class='t_com'>{{ car.brand|add:' '|add:car.model|add:' '|add:car.year }}</td>
+                                            <td class='t_com'>{{ car.active }}</td>
                                             <td class='t_com'>
-                                                <a href="{% url 'pop-car-view' pk=pc.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
-                                                <a href="{% url 'pop-car-edit' pk=pc.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
-                                                <a href="{% url 'pop-car-delete' pk=pc.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'pop-car-view' pk=car.pk %}" title='View' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'pop-car-edit' pk=car.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px; color: #3D3D3D;'></span></a>
+                                                <a href="{% url 'pop-car-delete' pk=car.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' style='padding-right:0px; color: #3D3D3D;'></span></a>
                                             </td>
                                         </tr>
                                     {% endif %}
