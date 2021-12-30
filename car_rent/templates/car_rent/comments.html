@@ -39,7 +39,7 @@
                     </li>
                 {% else %}
                     <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in" style="padding-right: 5px;"></span>Login</a></li>
-                    <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user" style="padding-right: 5px;"></span>Register</a></li>
+                    <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user" style=" padding-right: 5px;"></span>Register</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -53,22 +53,22 @@
 <!-- Creating circles under comments -->
 <div id="myCarousel" class="carousel slide text-center" style="background-color: black;" data-ride="carousel">
     <ol class="carousel-indicators">
-        {% if cf|length > 0 and cf|length <= 5 %}
+        {% if comments_filtered|length > 0 and comments_filtered|length <= 5 %}
             <!-- First item must have class 'active' -->
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                {% for i in count %}
+                {% for i in amount %}
                     <li data-target="#myCarousel" data-slide-to={{i}}></li>
                 {% endfor %}
         {% endif %}
     </ol>
     <!-- Display customers comments -->
     <div class="carousel-inner" role="listbox" style="height: 200px;">
-        {% for c in cf %}
-            {% if c.id == low_id.id__min %}
+        {% for comment in comments_filtered %}
+            {% if comment.id == lowest_id.id__min %}
                 <!-- First item must have class 'item active' -->
-                <div class="item active"><h4>{{ c.comment }}<br><span>{{ c.name }}</span></h4></div>
+                <div class="item active"><h4>{{ comment.comment }}<br><span>{{ comment.name }}</span></h4></div>
             {% else %}
-                <div class="item"><h4>{{ c.comment }}<br><span>{{ c.name }}</span></h4></div>
+                <div class="item"><h4>{{ comment.comment }}<br><span>{{ comment.name }}</span></h4></div>
             {% endif %}
         {% endfor %}
     </div>
