@@ -51,7 +51,7 @@
 <div id="flip">Click here to add comment</div>
 <div class="demo-container" id="panel">
     <!-- Add new comment if there is no user's comment-->
-    {% if user.id not in fv %}
+    {% if user.id not in field_values %}
         <p class='lead'><em>You have no comments yet</em></p>
         <div>
             <form action="{% url 'comments-add' pk=user.id %}" method="post">
@@ -62,7 +62,7 @@
             </form>
         </div>
     {% endif %}
-    {% if user.id in fv %}
+    {% if user.id in field_values %}
         <!-- Table with added comments -->
         <div class="com_disp">
             <div>
@@ -80,28 +80,28 @@
                 <tbody>
                     <!-- Display all comments when Admin is logged -->
                     {% if user.is_superuser %}
-                        {% for c in cf %}
+                        {% for comment in comments_filtered %}
                             <tr class='t_com'>
-                                <td class='t_com'>{{ c.name }}</td>
-                                <td class='t_com'>{{ c.comment }}</td>
-                                <td class="t_com">{{ c.created_date }}</td>
+                                <td class='t_com'>{{ comment.name }}</td>
+                                <td class='t_com'>{{ comment.comment }}</td>
+                                <td class="t_com">{{ comment.created_date }}</td>
                                 <td class='t_com'>
-                                    <a href="{% url 'comments-edit' pk=c.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px'></span></a>
-                                    <a href="{% url 'comments-delete' pk=c.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' ></span></a>
+                                    <a href="{% url 'comments-edit' pk=comment.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px'></span></a>
+                                    <a href="{% url 'comments-delete' pk=comment.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' ></span></a>
                                 </td>
                             </tr>
                         {% endfor %}
                     <!-- Display comments for logged user -->
                     {% else %}
-                        {% for c in cf %}
-                            {% if c.created_by == user %}
+                        {% for comment in comments_filtered %}
+                            {% if comment.created_by == user %}
                                 <tr class='t_com'>
-                                    <td class='t_com'>{{ c.name }}</td>
-                                    <td class='t_com'>{{ c.comment }}</td>
-                                    <td class="t_com">{{ c.created_date }}</td>
+                                    <td class='t_com'>{{ comment.name }}</td>
+                                    <td class='t_com'>{{ comment.comment }}</td>
+                                    <td class="t_com">{{ comment.created_date }}</td>
                                     <td class='t_com'>
-                                        <a href="{% url 'comments-edit' pk=c.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px'></span></a>
-                                        <a href="{% url 'comments-delete' pk=c.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' ></span></a>
+                                        <a href="{% url 'comments-edit' pk=comment.pk %}" title='Edit' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil' style='padding-right:10px'></span></a>
+                                        <a href="{% url 'comments-delete' pk=comment.pk %}" title='Delete' data-toggle='tooltip'><span class='glyphicon glyphicon-trash' ></span></a>
                                     </td>
                                 </tr>
                             {% endif %}
@@ -115,22 +115,22 @@
 <!-- Creating circles under comments -->
 <div id="myCarousel" class="carousel slide text-center" style="background-color: black;" data-ride="carousel">
     <ol class="carousel-indicators">
-        {% if cf|length > 0 and cf|length <= 5 %}
+        {% if comments_filtered|length > 0 and comments_filtered|length <= 5 %}
             <!-- First item must have class 'active' -->
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                {% for i in count %}
-                    <li data-target="#myCarousel" data-slide-to={{ i }}></li>
+                {% for i in amount %}
+                    <li data-target="#myCarousel" data-slide-to={{i}}></li>
                 {% endfor %}
         {% endif %}
     </ol>
     <!-- Display customers comments -->
     <div class="carousel-inner" role="listbox" style="height: 200px;">
-        {% for c in cf %}
-            {% if c.id == low_id.id__min %}
+        {% for comment in comments_filtered %}
+            {% if comment.id == lowest_id.id__min %}
             <!-- First item must have class 'item active' -->
-                <div class="item active"><h4>{{ c.comment }}<br><span>{{ c.name }}</span></h4></div>
+                <div class="item active"><h4>{{ comment.comment }}<br><span>{{ comment.name }}</span></h4></div>
             {% else %}
-                <div class="item"><h4>{{ c.comment }}<br><span>{{ c.name }}</span></h4></div>
+                <div class="item"><h4>{{ comment.comment }}<br><span>{{ comment.name }}</span></h4></div>
             {% endif %}
         {% endfor %}
     </div>
